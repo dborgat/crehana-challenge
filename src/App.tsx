@@ -1,141 +1,59 @@
-import { Layout } from 'antd';
-import { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { Country, InputState, InputArray } from './types';
+//External components
+import { Layout, Spin, Row, Result } from 'antd';
+import { useQuery } from '@apollo/client';
 
-import CountryContext from './context/countriesContext';
-import CountrySelect from './components/CountrySelect';
+//Internal components
+import { LIST_ALL_COUNTRIES_AND_CONTINENTS } from './queries/allCountriesQuery';
+import ContextProvider from './context/ContextProvider';
+import CountrySelectHeader from './components/CountrySelectHeader';
 import CountryInfo from './components/CountryInfo';
-import './App.css';
+
+//Styles
 import 'antd/dist/antd.css';
 
 const { Header, Content } = Layout;
 
-const LIST_ALL_COUNTRIES_AND_CONTINENTS = gql`
-  {
-    countries {
-      code
-      name
-      native
-      continent {
-        code
-        name
-      }
-      capital
-      currency
-      languages {
-        name
-        native
-        code
-      }
-      states {
-        name
-      }
-      emoji
-    }
-    continents {
-      code
-      name
-      countries {
-        code
-        name
-        capital
-        native
-        languages {
-          name
-          native
-        }
-        emoji
-      }
-    }
-  }
-`;
-
 function App() {
-  const [input, setInput] = useState<InputState>({
-    country: undefined,
-    continent: undefined,
-    currency: undefined,
-  });
-  const [filterArray, setFilterArray] = useState<InputArray>({
-    country: [],
-    continent: [],
-    currency: [],
-  });
-  const { data, loading, error } = useQuery(LIST_ALL_COUNTRIES_AND_CONTINENTS);
-
-  const filterByCurrencyFunction = (
-    countryList: Array<Country>,
-    key: string,
-    e: React.ChangeEvent<HTMLInputElement> | string
-  ) => {
-    let result = countryList.filter(({ currency }) => currency === e);
-    setFilterArray({ ...filterArray, [key]: result });
-  };
-
-  const filterByCountryFunction = (
-    countryList: Array<Country>,
-    key: string,
-    e: React.ChangeEvent<HTMLInputElement> | string
-  ) => {
-    let result = countryList.filter(({ code }) => code === e);
-    setFilterArray({ ...filterArray, [key]: result });
-  };
-
-  const filterByContinentFunction = (
-    countryList: Array<Country>,
-    key: string,
-    e: React.ChangeEvent<HTMLInputElement> | string
-  ) => {
-    let result = countryList.filter(({ continent }) => continent.code === e);
-    setFilterArray({ ...filterArray, [key]: result });
-  };
-
-  const onChangeInput = (
-    key: string,
-    e: React.ChangeEvent<HTMLInputElement> | string
-  ) => {
-    setInput({ ...input, [key]: e });
-    if (key === 'currency')
-      return filterByCurrencyFunction(data.countries, key, e);
-    if (key === 'country')
-      return filterByCountryFunction(data.countries, key, e);
-    if (key === 'continent')
-      return filterByContinentFunction(data.countries, key, e);
-  };
+  const { loading, error } = useQuery(LIST_ALL_COUNTRIES_AND_CONTINENTS);
 
   if (loading || error) {
-    return <p>{error ? error.message : 'Loading...'}</p>;
+    return (
+      <Row
+        style={{ height: '100vh', width: '100vw', padding: 50 }}
+        justify='center'
+        align='middle'
+      >
+        {error ? (
+          <Result
+            status='404'
+            title='No se pudo obtener la lista de países'
+            subTitle='Lo lamento, por favor intente más tarde.'
+          />
+        ) : (
+          <Spin size='large' />
+        )}
+      </Row>
+    );
   }
 
   return (
-    <>
-      <CountryContext.Provider
-        value={{
-          onChangeInput,
-          code: input,
-          countries: data.countries,
-          continents: data.continents,
-          filterArray,
-          input,
-        }}
-      >
-        <Layout>
-          <Header
-            style={{
-              display: 'flex',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-            }}
-          >
-            <CountrySelect />
-          </Header>
-          <Content style={{ height: 'auto', padding: 50 }}>
-            <CountryInfo />
-          </Content>
-        </Layout>
-      </CountryContext.Provider>
-    </>
+    <ContextProvider>
+      <Layout>
+        <Header
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            padding: 50,
+          }}
+        >
+          <CountrySelectHeader />
+        </Header>
+        <Content style={{ height: 'auto', minHeight: '100vh', padding: 50 }}>
+          <CountryInfo />
+        </Content>
+      </Layout>
+    </ContextProvider>
   );
 }
 

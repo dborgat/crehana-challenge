@@ -1,8 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
-import CountryContext from '../context/countriesContext';
-import { Country } from '../types';
-
+//External components
+import { useEffect, useState, useContext } from 'react';
 import { Select } from 'antd';
+
+//Internal components
+import CountryContext from '../context/countriesContext';
+import SelectFilter from './SelectFilter';
+import { Country } from '../types';
 
 const { Option } = Select;
 
@@ -11,7 +14,7 @@ interface ObjectCurrencies {
 }
 
 export default function FilterByCurrencies() {
-  const { onChangeInput, countries, input } = useContext(CountryContext);
+  const { countries, input } = useContext(CountryContext);
 
   const [currencies, setCurrencies] = useState<object>({});
 
@@ -31,30 +34,12 @@ export default function FilterByCurrencies() {
   }, [countries]);
 
   return (
-    <Select
-      value={input?.currency}
-      showSearch
-      style={{ width: 200 }}
-      placeholder='Search to Select'
-      optionFilterProp='children'
-      filterOption={(input, option) => {
-        return (option!.children as unknown as string).includes(
-          input.toLocaleUpperCase()
-        );
-      }}
-      filterSort={(optionA, optionB) =>
-        (optionA!.children as unknown as string)
-          .toLowerCase()
-          .localeCompare((optionB!.children as unknown as string).toLowerCase())
-      }
-      allowClear
-      onChange={(e) => onChangeInput && onChangeInput('currency', e)}
-    >
-      {Object.keys(currencies).map((currency) => (
-        <Option key={currency} value={currency}>
+    <SelectFilter value={input?.currency} type='currency'>
+      {Object.keys(currencies).map((currency, index) => (
+        <Option key={index} value={currency}>
           {currency}
         </Option>
       ))}
-    </Select>
+    </SelectFilter>
   );
 }
