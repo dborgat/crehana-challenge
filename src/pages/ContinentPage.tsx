@@ -1,10 +1,11 @@
 //External components
-import { Divider, Row, Typography, Result, Spin, Col, Button } from 'antd';
+import { Divider, Row, Typography, Col, Button } from 'antd';
 import { useQuery } from '@apollo/client';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
 //Internal components
 import { LIST_SELECTED_COUNTINENT } from '../queries/allCountriesQuery';
+import LoadingOrErrorView from '../components/LoadingOrErrorView';
 import { Country } from '../types';
 
 const { Text, Title } = Typography;
@@ -19,23 +20,7 @@ const ContinentPage = () => {
   });
 
   if (loading || error) {
-    return (
-      <Row
-        style={{ height: '100vh', width: '100vw', padding: 50 }}
-        justify='center'
-        align='middle'
-      >
-        {error ? (
-          <Result
-            status='404'
-            title='No se pudo obtener la el país'
-            subTitle='Lo lamento, por favor intente más tarde.'
-          />
-        ) : (
-          <Spin size='large' />
-        )}
-      </Row>
-    );
+    return <LoadingOrErrorView error={error} />;
   }
 
   return (

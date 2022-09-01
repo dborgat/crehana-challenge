@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const LIST_ALL_COUNTRIES_AND_CONTINENTS = gql`
+query GetAllCountriesAndContinents
   {
     countries {
       code

@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 
 //Internal components
 import { InputState } from '../types';
+import LoadingOrErrorView from '../components/LoadingOrErrorView';
 import { LIST_ALL_COUNTRIES_AND_CONTINENTS } from '../queries/allCountriesQuery';
 import CountryContext from './countriesContext';
 
@@ -18,7 +19,7 @@ export default function ContextProvider({ children }: PropsProvider) {
     currency: undefined,
   });
 
-  const { data } = useQuery(LIST_ALL_COUNTRIES_AND_CONTINENTS);
+  const { data, loading, error } = useQuery(LIST_ALL_COUNTRIES_AND_CONTINENTS);
 
   const onChangeInput = (
     key: string,
@@ -26,6 +27,10 @@ export default function ContextProvider({ children }: PropsProvider) {
   ) => {
     setInput({ ...input, [key]: e });
   };
+
+  if (loading || error) {
+    return <LoadingOrErrorView error={error} />;
+  }
 
   return (
     <CountryContext.Provider

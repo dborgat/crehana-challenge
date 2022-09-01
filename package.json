@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.184"
+    "@types/lodash": "^4.14.184",
+    "jest-watch-typeahead": "^0.6.5"
   }
 }
