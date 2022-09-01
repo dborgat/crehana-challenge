@@ -24,22 +24,10 @@ export interface Country {
     continent: Continent
 }
 
-export interface Continent {
-    code: string
-    name: string
-    countries: Array<Country>
-}
-
 export interface InputState {
     country?: string
     continent?: string
     currency?: string
-}
-
-export interface InputObject {
-    country?: Array<Country>
-    continent?: Array<Country>
-    currency?: Array<Country>
 }
 
 export interface SelectedCountryContext {
@@ -48,5 +36,4 @@ export interface SelectedCountryContext {
     countries: Array<Country>
     continents: Array<Continent>
     input: InputState
-    filterObject: InputObject
 }

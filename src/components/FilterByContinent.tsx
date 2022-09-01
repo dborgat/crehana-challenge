@@ -13,9 +13,9 @@ export default function FilterByContinent() {
 
   return (
     <SelectFilter value={input?.continent} type='continent'>
-      {continents?.map((continent) => (
-        <Option key={continent.code} value={continent.code}>
-          {continent.name}
+      {continents?.map(({ code, name }) => (
+        <Option key={code} value={code}>
+          {name}
         </Option>
       ))}
     </SelectFilter>

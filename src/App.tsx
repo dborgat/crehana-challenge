@@ -1,17 +1,18 @@
 //External components
-import { Layout, Spin, Row, Result } from 'antd';
+import { Spin, Row, Result } from 'antd';
 import { useQuery } from '@apollo/client';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 //Internal components
 import { LIST_ALL_COUNTRIES_AND_CONTINENTS } from './queries/allCountriesQuery';
 import ContextProvider from './context/ContextProvider';
-import CountrySelectHeader from './components/CountrySelectHeader';
-import CountryInfo from './components/CountryInfo';
+import HomePage from './pages/HomePage';
+import CountryPage from './pages/CountryPage';
+import ContinentPage from './pages/ContinentPage';
+import CurrencyPage from './pages/CurrencyPage';
 
 //Styles
 import 'antd/dist/antd.css';
-
-const { Header, Content } = Layout;
 
 function App() {
   const { loading, error } = useQuery(LIST_ALL_COUNTRIES_AND_CONTINENTS);
@@ -38,21 +39,20 @@ function App() {
 
   return (
     <ContextProvider>
-      <Layout>
-        <Header
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            padding: 50,
-          }}
-        >
-          <CountrySelectHeader />
-        </Header>
-        <Content style={{ height: 'auto', minHeight: '100vh', padding: 50 }}>
-          <CountryInfo />
-        </Content>
-      </Layout>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/country'>
+            <Route path=':code' element={<CountryPage />} />
+          </Route>
+          <Route path='/continent'>
+            <Route path=':code' element={<ContinentPage />} />
+          </Route>
+          <Route path='/currency'>
+            <Route path=':code' element={<CurrencyPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ContextProvider>
   );
 }

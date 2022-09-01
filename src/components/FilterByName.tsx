@@ -13,9 +13,9 @@ export default function FilterByName() {
 
   return (
     <SelectFilter value={input?.country} type='country'>
-      {countries?.map((country) => (
-        <Option key={country.code} value={country.code}>
-          {`${country.emoji} - ${country.name.toLocaleUpperCase()}`}
+      {countries?.map(({ code, name, emoji }) => (
+        <Option key={code} value={code}>
+          {`${emoji} - ${name.toLocaleUpperCase()}`}
         </Option>
       ))}
     </SelectFilter>

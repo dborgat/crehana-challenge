@@ -1,17 +1,16 @@
 //External components
-import { Typography, Col } from 'antd';
+import { Typography, Col, Row } from 'antd';
 
 //Internal components
-import FilterByName from './FilterByName';
-import FilterByContinent from './FilterByContinent';
-import FilterByCurrencies from './FilterByCurrencies';
+import FilterByName from '../components/FilterByName';
+import FilterByContinent from '../components/FilterByContinent';
+import FilterByCurrencies from '../components/FilterByCurrencies';
 
 const { Title } = Typography;
 
-export default function CountrySelectHeader() {
-
+export default function HomePage() {
   return (
-    <>
+    <Row style={{ backgroundColor: 'navy', height: '100vh', width: '100vw' }} justify="space-around" align="middle">
       <Col>
         <Title
           level={5}
@@ -28,7 +27,7 @@ export default function CountrySelectHeader() {
         >
           Buscar por continente
         </Title>
-          <FilterByContinent />
+        <FilterByContinent />
       </Col>
       <Col>
         <Title
@@ -37,8 +36,8 @@ export default function CountrySelectHeader() {
         >
           Buscar por moneda
         </Title>
-          <FilterByCurrencies />
+        <FilterByCurrencies />
       </Col>
-    </>
+    </Row>
   );
 }

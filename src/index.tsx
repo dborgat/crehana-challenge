@@ -1,5 +1,8 @@
+//External components
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+//Internal components
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
@@ -15,7 +18,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <ApolloProvider client={client}>
     <React.StrictMode>
-        <App />
+      <App />
     </React.StrictMode>
   </ApolloProvider>
 );

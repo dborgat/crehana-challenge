@@ -1,10 +1,7 @@
 //External components
-import { useContext, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Select } from 'antd';
-
-//Internal components
-import CountryContext from '../context/countriesContext';
-
+import { useNavigate } from 'react-router-dom';
 interface SelectProps {
   value?: string;
   type: string;
@@ -12,7 +9,7 @@ interface SelectProps {
 }
 
 export default function SelectFilter({ value, type, children }: SelectProps) {
-  const { onChangeInput } = useContext(CountryContext);
+  const navigate = useNavigate();
 
   return (
     <Select
@@ -31,7 +28,7 @@ export default function SelectFilter({ value, type, children }: SelectProps) {
           .toLowerCase()
           .localeCompare((optionB!.children as unknown as string).toLowerCase())
       }
-      onChange={(e) => onChangeInput && onChangeInput(type, e)}
+      onChange={(e: string) => navigate(`${type}/${e}`)}
       allowClear
     >
       {children}
