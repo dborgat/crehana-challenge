@@ -1,12 +1,16 @@
 //External components
-import { Card, Divider, Row, Typography, List, Result, Spin, Col } from 'antd';
+import { Divider, Row, Typography, Spin, Col, Button } from 'antd';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 //Internal components
 import useCurrencies from '../hooks/useCurrencies';
 
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 const CurrencyPage = () => {
+  const navigate = useNavigate();
+  const { code } = useParams();
+
   const [countryByCurrency] = useCurrencies();
 
   if (!countryByCurrency.length) {
@@ -22,18 +26,29 @@ const CurrencyPage = () => {
   }
 
   return (
-    <Row>
-      {countryByCurrency?.map(({ name, code }) => (
-        <Col key={code}>
-          <Col span={24}>
-            <Title level={3}>Continente seleccionado: {name}</Title>
-          </Col>
-          <Col span={24}>
-            <Title level={3}>Codigo: {code}</Title>
-          </Col>
-          <Col span={24}>
-            <Title level={3}>Paises: ({name})</Title>
-          </Col>
+    <Row
+      justify='center'
+      align='middle'
+      className='main-container'
+      gutter={[32, 32]}
+    >
+      <Button onClick={() => navigate('/')}>
+        Volver
+      </Button>
+      <Col>
+        <Title level={1}>Moneda: {code}</Title>
+      </Col>
+      <Divider />
+
+      {countryByCurrency?.map(({ name, emoji, code, capital }) => (
+        <Col key={code} span={8}>
+          <Row className='main-container__card' justify='center' align='middle'>
+            <Col span={24}>
+              <Title level={3}>
+                {emoji} - <Link to={`/country/${code}`}>{name}</Link> -{capital}
+              </Title>
+            </Col>
+          </Row>
         </Col>
       ))}
     </Row>

@@ -1,0 +1,48 @@
+.loadView {
+  min-height: 100vh;
+  width: 100vw;
+  padding: 3.75rem;
+}
+
+.home-page-container {
+  @extend .loadView;
+  background-image: linear-gradient(135deg, #97abff 10%, #123597 100%);
+
+  h3,
+  h1 {
+    text-align: center;
+    &.ant-typography {
+      color: white;
+    }
+  }
+}
+
+.main-container {
+  @extend .loadView;
+  background: -webkit-linear-gradient(to right, #ffffff, #abbaab);
+  background: linear-gradient(to right, #ffffff, #abbaab);
+  h1 {
+    &.ant-typography {
+      text-align: center;
+      margin: 0;
+    }
+  }
+  &__card {
+    padding: 2.75rem;
+    min-height: 10.375rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgba(245, 241, 241, 0.632);
+    h1 {
+      &.ant-typography {
+        text-align: center;
+        margin: 0;
+      }
+    }
+  }
+
+  &__mini-card {
+    border: 1px solid black;
+    margin: 0.3rem;
+  }
+}

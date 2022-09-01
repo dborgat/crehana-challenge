@@ -12,6 +12,7 @@ import ContinentPage from './pages/ContinentPage';
 import CurrencyPage from './pages/CurrencyPage';
 
 //Styles
+import './styles/index.scss';
 import 'antd/dist/antd.css';
 
 function App() {
@@ -19,11 +20,7 @@ function App() {
 
   if (loading || error) {
     return (
-      <Row
-        style={{ height: '100vh', width: '100vw', padding: 50 }}
-        justify='center'
-        align='middle'
-      >
+      <Row className='loadView' justify='center' align='middle'>
         {error ? (
           <Result
             status='404'

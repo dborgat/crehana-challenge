@@ -15,7 +15,7 @@ export default function SelectFilter({ value, type, children }: SelectProps) {
     <Select
       showSearch
       value={value}
-      style={{ width: 200 }}
+      style={{ width: 300 }}
       placeholder='Busqueda'
       optionFilterProp='children'
       filterOption={(input, option) => {
