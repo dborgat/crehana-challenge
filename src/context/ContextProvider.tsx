@@ -1,10 +1,10 @@
 //External components
 import { useState, ReactElement } from 'react';
+import { Row, Result, Spin } from 'antd';
 import { useQuery } from '@apollo/client';
 
 //Internal components
 import { InputState } from '../types';
-import LoadingOrErrorView from '../components/LoadingOrErrorView';
 import { LIST_ALL_COUNTRIES_AND_CONTINENTS } from '../queries/allCountriesQuery';
 import CountryContext from './countriesContext';
 
@@ -29,8 +29,23 @@ export default function ContextProvider({ children }: PropsProvider) {
   };
 
   if (loading || error) {
-    return <LoadingOrErrorView error={error} />;
-  }
+    return (
+      <Row className='loadView' justify='center' align='middle'>
+        {error ? (
+          <Result
+            status='404'
+            title='No se pudo obtener el país'
+            subTitle='Lo lamento, por favor intente más tarde.'
+          />
+        ) : (
+          <>
+            <Spin size='large' />
+            <h1>CARGANDO...</h1>
+          </>
+        )}
+      </Row>
+    );
+    }
 
   return (
     <CountryContext.Provider

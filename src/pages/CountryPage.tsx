@@ -1,5 +1,5 @@
 //External components
-import { Divider, Row, Typography, Col, Button } from 'antd';
+import { Divider, Row, Typography, Col, Button, Result, Spin } from 'antd';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,8 +20,23 @@ const CountryPage = () => {
   });
 
   if (loading || error) {
-    return <LoadingOrErrorView error={error} />;
-  }
+    return (
+      <Row className='loadView' justify='center' align='middle'>
+        {error ? (
+          <Result
+            status='404'
+            title='No se pudo obtener el país'
+            subTitle='Lo lamento, por favor intente más tarde.'
+          />
+        ) : (
+          <>
+            <Spin size='large' />
+            <h1>CARGANDO...</h1>
+          </>
+        )}
+      </Row>
+    );
+    }
 
   return (
     <Row justify='center' align='middle' className='main-container'>
